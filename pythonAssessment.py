@@ -1,3 +1,5 @@
+import re
+
 def count_specific_word(text, word):
     words = text.lower().split()
     target = word.lower()
@@ -46,10 +48,7 @@ def calculate_average_word_length(text):
         total += len(w)
         count += 1
 
-    if count == 0:
-        return 0
-
-    return total / count
+    return total / count if count > 0 else 0
 
 
 def count_paragraphs(text):
