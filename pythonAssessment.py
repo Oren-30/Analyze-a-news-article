@@ -1,13 +1,13 @@
 import re
 
 def count_specific_word(text, word):
-    words = text.lower().split()
-    target = word.lower()
-
+    words = re.findall(r'\b[a-zA-Z]+\b', text.lower())
     count = 0
+
     for w in words:
-        if w == target:
+        if w == word.lower():
             count += 1
+
     return count
 
 
@@ -15,7 +15,7 @@ def identify_most_common_word(text):
     if not text.strip():
         return None
 
-    words = text.lower().split()
+    words = re.findall(r'\b[a-zA-Z]+\b', text.lower())
 
     freq = {}
     for w in words:
@@ -39,7 +39,7 @@ def calculate_average_word_length(text):
     if not text.strip():
         return 0
 
-    words = text.split()
+    words = re.findall(r'\b[a-zA-Z]+\b', text)
 
     total = 0
     count = 0
@@ -58,12 +58,9 @@ def count_paragraphs(text):
     paragraphs = text.split("\n\n")
 
     count = 0
-    i = 0
-
-    while i < len(paragraphs):
-        if paragraphs[i].strip():
+    for p in paragraphs:
+        if p.strip():
             count += 1
-        i += 1
 
     return count
 
@@ -72,11 +69,10 @@ def count_sentences(text):
     if not text.strip():
         return 1
 
-    sentences = text.split(".")
-
     count = 0
-    for s in sentences:
-        if s.strip():
+
+    for char in text:
+        if char in ".?!":
             count += 1
 
     return count
