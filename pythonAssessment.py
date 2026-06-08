@@ -1,45 +1,83 @@
-import re
-
 def count_specific_word(text, word):
-    words = re.findall(r'\b\w+\b', text.lower())
-    return words.count(word.lower())
+    words = text.lower().split()
+    target = word.lower()
+
+    count = 0
+    for w in words:
+        if w == target:
+            count += 1
+    return count
+
 
 def identify_most_common_word(text):
     if not text.strip():
         return None
 
-    words = re.findall(r'\b\w+\b', text.lower())
-    if not words:
-        return None
+    words = text.lower().split()
 
-    from collections import Counter
-    return Counter(words).most_common(1)[0][0]
+    freq = {}
+    for w in words:
+        if w in freq:
+            freq[w] += 1
+        else:
+            freq[w] = 1
+
+    most_common = None
+    max_count = 0
+
+    for word in freq:
+        if freq[word] > max_count:
+            max_count = freq[word]
+            most_common = word
+
+    return most_common
+
 
 def calculate_average_word_length(text):
     if not text.strip():
         return 0
 
-    words = re.findall(r'\b\w+\b', text)
-    if not words:
+    words = text.split()
+
+    total = 0
+    count = 0
+
+    for w in words:
+        total += len(w)
+        count += 1
+
+    if count == 0:
         return 0
 
-    total_length = sum(len(word) for word in words)
-    return total_length / len(words)
+    return total / count
+
 
 def count_paragraphs(text):
     if not text.strip():
         return 1
 
-    paragraphs = re.split(r'\n\s*\n', text.strip())
-    paragraphs = [p for p in paragraphs if p.strip()]
-    return len(paragraphs)
+    paragraphs = text.split("\n\n")
+
+    count = 0
+    i = 0
+
+    while i < len(paragraphs):
+        if paragraphs[i].strip():
+            count += 1
+        i += 1
+
+    return count
 
 
 def count_sentences(text):
     if not text.strip():
         return 1
 
-    sentences = re.split(r'[.!?]+', text)
-    sentences = [s for s in sentences if s.strip()]
-    return len(sentences)
+    sentences = text.split(".")
 
+    count = 0
+    for s in sentences:
+        if s.strip():
+            count += 1
+
+    return count
